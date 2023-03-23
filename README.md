@@ -15,3 +15,6 @@ A virtual pet program like the Tamagachis in the 90s.
     * The user can access the pet's stats.
     * The Virtual Pet's stats will be listed.
 * Save & Reload stats
+
+## Changelog
+* 3/23/23 - Created our Pet class (still work to do)
