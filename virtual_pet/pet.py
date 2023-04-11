@@ -3,6 +3,8 @@ Filename: pet.py
 Author: Alex Price
 Description: A virtual pet complete with pet emotions, and behavior. 
 """
+import utilities
+import random
 
 class Pet:
     """A virtual pet (can be used as a base class for other pet types).
@@ -16,7 +18,7 @@ class Pet:
             hungrier the pet)
         health: int (how healthy is the pet)
     """
-
+    # constructor method
     def __init__(self, name: str, breed: str) -> None:
         self.name = name
         self.breed = breed
@@ -24,6 +26,46 @@ class Pet:
         self.happiness = 5
         self.hunger = 4
         self.health = 50
+        self.exhaustion = 0
+
+    def play(self):
+        """Let the user choose how to play with the pet."""
+        menu = f"\nChoose how you would like to play with {self.name}:\n"
+        menu += "\n\t1 - Fetch\n\t2 - Tug-Of-War"
+        menu += "\n\t3 - Stroke pet\n\t4 - Quit"
+
+        choice = ""
+        while choice != "4":
+            choice = utilities.get_menu_choice(menu, ("1", "2", "3", "4"))
+            if choice == "1":
+                description = (f"{self.name} goes after the toy you toss. ")
+                if random.choice("01") == "1":
+                    description = f"{self.name} grabs the toy and runs away " 
+                    description += "with it. "
+                    self.happiness += 1
+                    # quit since the pet ran off with the toy
+                    choice = "4"
+                else:
+                    description = f"{self.name} goes after the toy you toss. "
+                    description += f"{self.name} drops the toy at your feet. "
+                    description += f"{self.name} seems to really like this game!"
+                    self.happiness += 2
+            elif choice == "4":
+                description = f"{self.name} seems disappointed, but goes back to "
+                description += "their favorite spot. You are done playing."
+            else:
+                description = f"{self.name} looks very pleased! "
+
+                # hunger and exhaustion increase
+                self.hunger += 1
+                self.exhaustion += 1
+
+                #keep happiness capped at 10
+                if self.happiness > 10:
+                    self.happiness = 10
+                print(description)
+            # after play, provide update
+            description += f"{self.name}'s happiness is at {self.happiness}"
 
 # global scope
 if __name__ == "__main__":
