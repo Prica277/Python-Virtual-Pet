@@ -6,6 +6,7 @@ be used in similar projects.
 """
 
 # import statements
+import possible_pets as pets
 
 def get_menu_choice(menu: str, legal_choices: tuple) -> str:
     """displays a menu of options, and asks the user to make a choice.
@@ -30,22 +31,22 @@ def get_menu_choice(menu: str, legal_choices: tuple) -> str:
 
     return user_choice
 
+
+def get_pet() -> pets.Pet:
+    """Picks a pet for the user
+    """
+    name = input("Enter a name for your pet: ")
+    breed_menu = "Choose a breed: "
+    num = 1
+    choices = []
+    for breed in pets.breeds: 
+        breed_menu += f"\n\t{num} - {breed} "
+        choices.append(str(num))
+        num += 1
+    breed = get_menu_choice(breed_menu, tuple(choices))
+    user_pet = pets.Pet(name, breed)
+    return user_pet
+
 if __name__ == "__main__":
-    menu = "Here is your list of options:\n\t1 - Option #1\n"
-    menu += "\t2 - Option #2\n\t3 - Option #3\n\n"
-    selection = get_menu_choice(menu, ("1", "2", "3"))
-
-    print(f"\nYou selected {selection}")
-
-    new_menu = """
-    Here is your list of options: 
-    
-        1 - Option 1: Play with your pet.
-        2 - Option 2: Feed your pet
-        3 - Option 3:
-        4 - Option 4: 
-        """
-    
-    options = ("1", "2", "3", "4")
-    new_choice = get_menu_choice(new_menu, options)
-    print("You selected: " + new_choice)
+    my_pet = get_pet()
+    print(my_pet)

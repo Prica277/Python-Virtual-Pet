@@ -1,10 +1,4 @@
-"""
-Filename: pet.py
-Author: Alex Price
-Description: A virtual pet complete with pet emotions, and behavior. 
-"""
-import utilities
-import random
+breeds = ( "bird", "snake", "hampster")
 
 class Pet:
     """A virtual pet (can be used as a base class for other pet types).
@@ -93,6 +87,11 @@ class Pet:
             # after play, provide update
             description += f"{self.name}'s happiness is at {self.happiness}"
             
+    def __str__(self) -> str:
+        rep = f"Name: {self.name} \nBreed: {self.breed}"
+        return rep
+        
+
 
 # global scope
 if __name__ == "__main__":

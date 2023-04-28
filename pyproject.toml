@@ -8,6 +8,7 @@ packages = [{include = "virtual_pet"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pytest = "^7.3.1"
 
 
 [build-system]

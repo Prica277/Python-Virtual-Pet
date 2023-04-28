@@ -1,4 +1,4 @@
-from virtual_pet import utilities
+import virtual_pet.utilities
 
 def test_get_menu_choice_for_legitimite_output():
     menu = "Options: 1, 2, or 3"
