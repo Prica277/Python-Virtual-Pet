@@ -7,6 +7,24 @@ be used in similar projects.
 
 # import statements
 import possible_pets as pets
+from pathlib import Path
+import json
+
+def get_file_contents(path: str, filename: str):
+    """Returns the contents of the file in the path.
+    
+    Args:
+        path: the relative folder path should end with a forward slash (/)
+        filename: the name of the file with extension
+
+    Returns:
+        contents: a string of the file contents"""
+    
+    folder = Path(path)
+    file_to_open = folder / filename
+    f = open(file_to_open)
+    return f.read()
+
 
 def get_menu_choice(menu: str, legal_choices: tuple) -> str:
     """displays a menu of options, and asks the user to make a choice.
@@ -48,5 +66,10 @@ def get_pet() -> pets.Pet:
     return user_pet
 
 if __name__ == "__main__":
-    my_pet = get_pet()
-    print(my_pet)
+    contents = get_file_contents("data/", "pet.json")
+    print(contents)
+
+    pet_dictionary = json.loads(contents)
+    print(pet_dictionary)
+    # my_pet = get_pet()
+    # print(my_pet)

@@ -1,0 +1,13 @@
+{
+    "pets": [
+        {
+            "name": "Fluffy",
+            "breed": "Rock",
+            "nickname": ["Granite"],
+            "happiness": 5,
+            "hunger": 5,
+            "health": 100,
+            "exhaustion": 0
+        }
+    ]
+}
