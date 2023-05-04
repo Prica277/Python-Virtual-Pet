@@ -1,3 +1,8 @@
+""" 
+Filename: possible_pets.py
+Author: Alex Price
+Description: A virtual pet complete with emotions!
+"""
 breeds = ( "bird", "snake", "hampster")
 
 class Pet:
@@ -15,12 +20,21 @@ class Pet:
     # constructor method
     def __init__(self, name: str, breed: str) -> None:
         self.name = name
+        self.ID = uuid.uuid().hex
         self.breed = breed
         self.nicknames = []
         self.happiness = 5
         self.hunger = 4
         self.health = 50
         self.exhaustion = 0
+
+    def store_pet_data(self) -> None:
+        """Insert pet information into the pets.json file"""
+
+    def load_data(self) -> None: 
+        """Grab pet data from the pets.json file and get the attributes"""
+
+        # Get all pets from pet.json
 
     def play(self):
         """Let the user choose how to play with the pet."""
