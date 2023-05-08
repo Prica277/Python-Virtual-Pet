@@ -3,6 +3,10 @@ Filename: possible_pets.py
 Author: Alex Price
 Description: A virtual pet complete with emotions!
 """
+import random
+import uuid
+import utilities
+
 breeds = ( "bird", "snake", "hampster")
 
 class Pet:
@@ -13,7 +17,7 @@ class Pet:
         breed: str
         nicknames: list (a list strings of given nicknames for your pet)
         happiness: int (how happy is the pet from 0-10, with 10 is happiest)
-        hunger: int (how hungery the pet is, the higher the number the 
+        hunger: int (how hungry the pet is, the higher the number the 
             hungrier the pet)
         health: int (how healthy is the pet)
     """
@@ -100,7 +104,63 @@ class Pet:
                 print(description)
             # after play, provide update
             description += f"{self.name}'s happiness is at {self.happiness}"
-            
+
+    def feed(self):
+        """Let the user choose how to feed the pet."""
+        menu = f"\nChoose how you would like to feed {self.name}:\n"
+        menu += "\n\t1 - Pet Food\n\t2 - Human Food"
+        menu += "\n\t3 - Treats\n\t4 - Quit"
+
+        choice = ""
+        while choice != "4":
+            choice = utilities.get_menu_choice(menu, ("1", "2", "3", "4"))
+            if choice == "1":
+                description = (f"{self.name} happily starts to eat.")
+                if random.choice("01") == "1":
+                    description = f"{self.name} makes a disgusted expression. " 
+                    description += "It seems the food is not to their taste."
+                    self.happiness -= 1
+                    # quit because the pet is upset
+                    choice = "4"
+                else:
+                    description = f"{self.name} finishes their meal and "
+                    description += "looks very pleased!"
+                    self.hunger -= 2
+            elif choice == "2":
+                description = (f"{self.name} seems happy that you're sharing ")
+                description += "with them and starts to eat."
+                if random.choice("01") == "1":
+                    description = f"{self.name} gives you a betrayed look and "
+                    description += "wanders off. It seems that the food made them "
+                    description += "feel sick."
+                    self.health -= 5
+                    # quit because the pet is upset
+                    choice = "4"
+                else: 
+                    description = f"{self.name} finishes their meal and "
+                    description += "looks very pleased!"
+                    self.hunger -= 2
+            elif choice == "3":
+                description = (f"You give {self.name} a treat. They seem to ")
+                description += "really enjoy it!"
+                self.hunger -= 1
+                self.happiness += 1
+            else: 
+                description = f"{self.name} looks like it's done eating. "
+
+                #keep happiness capped at 10
+                if self.happiness > 10:
+                    self.happiness = 10
+                print(description)
+                
+                #keep hunger from going below 0
+                if self.hunger < 0:
+                    self.hunger = 0
+                print(description)
+
+            # after feeding, provide update
+            description += f"{self.name}'s hunger is at {self.hunger}"    
+
     def __str__(self) -> str:
         rep = f"Name: {self.name} \nBreed: {self.breed}"
         return rep
