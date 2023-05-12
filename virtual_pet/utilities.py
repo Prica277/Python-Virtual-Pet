@@ -71,5 +71,5 @@ if __name__ == "__main__":
 
     pet_dictionary = json.loads(contents)
     print(pet_dictionary)
-    # my_pet = get_pet()
-    # print(my_pet)
+    my_pet = get_pet()
+    print(my_pet)
