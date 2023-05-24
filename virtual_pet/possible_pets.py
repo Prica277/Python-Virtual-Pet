@@ -7,6 +7,7 @@ import random
 import uuid
 import utilities
 import json
+from typing import Type
 
 breeds = ( "bird", "snake", "hampster")
 
@@ -36,19 +37,43 @@ class Pet:
 
     def store_pet_data(self) -> None:
         """Insert pet information into the pets.json file"""
-        #
+        # get the contents of the pets
+        pets_text = utilities.get_file_contents("data/", "pets.json")
+        pets_dictionary = json.loads(pets_text)
 
+        # create a pet dictionary object and append it to the pet_dictionary
+        this_pet = {
+            "name": self.name,
+            "ID": self.ID,
+            "breed": self.breed,
+            "nicknames": self.nicknames,
+            "happiness": self.happiness,
+            "hunger": self.hunger,
+            "health": self.health,
+            "tiredness": self.tiredness
+        }
+        
+        # Only append the pet if it isn't already there.
+
+        pets_dictionary["pets"].append(this_pet)
+        pets_json = json.dumps(pets_dictionary)
+
+        # Save to pets.json
+        with open("data/pets.json", "w") as outfile:
+            outfile.write(pets_json)
+
+    @staticmethod
     def load_data(self) -> None: 
         """Grab pet data from the pets.json file and get the attributes"""
 
         # Get all pets from pet.json
         pets = utilities.get_file_contents("data/", "pets.json")
         pets_dictionary = json.loads(pets)
-        pet_names = pets_dictionary.keys()
+        all_pets = pets_dictionary.get("pets")
 
     @staticmethod
     def get_pet():
-        """Show user list of pets and allow them to choose a pet to tend."""
+        """Show user list of pets and allow them to choose a pet to interact with."""
 
         # Get all pets from pet.json
         pets = utilities.get_file_contents("data/", "pets.json")
@@ -58,6 +83,8 @@ class Pet:
         # show list of pets and let the user select a pet
         for pet in all_pets:
             print(pet["name"])
+
+        # Create and return a pet
 
     def play(self):
         """Let the user choose how to play with the pet."""
@@ -180,9 +207,56 @@ class Pet:
             # after feeding, provide update
             description += f"{self.name}'s hunger is at {self.hunger}"    
 
-    def __str__(self) -> str:
-        rep = f"Name: {self.name} \nBreed: {self.breed}"
-        return rep
+    # def train(self):
+
+    def heal(self):
+        """ Lets the user choose how to heal the pet. Affects health meter."""
+        menu = f"\nChoose how you would like to heal {self.name}:\n"
+        menu += "\n\t1 - Vet Visit\n\t2 - Medicine"
+        menu += "\n\t3 - Quit"
+
+        choice = ""
+        while choice != "4":
+            choice = utilities.get_menu_choice(menu, ("1", "2", "3"))
+            if choice == "1":
+                description = (f"You put {self.name} into their carrier after ")
+                description += "a bit of struggle and head to the vet. They seem "
+                description += "upset, but it's for their own good."
+                self.health += 10
+                self.happiness -= 4
+            elif choice == "2":
+                description = (f"{self.name} sniffs cautiously at the offered ")
+                description += "medicine."
+                if random.choice("01") == "1":
+                    description = f"{self.name} gives you a betrayed look and "
+                    description += "wanders off after taking the bitter medicine. "
+                    self.health += 5
+                    self.happiness -= 1
+                    # quit because the pet is upset
+                    choice = "4"
+                else: 
+                    description = f"{self.name} takes their medicine without any "
+                    description += "issues and already looks a bit better!"
+                    self.health += 5
+            else: 
+                description = f"{self.name} leaves you alone. "
+
+                #keep health capped at 50
+                if self.health > 50:
+                    self.health = 50
+                print(description)
+                
+                #keep happiness from going below 0
+                if self.happiness < 0:
+                    self.happpiness = 0
+                print(description)
+
+            # after treatment, provide update
+            description += f"{self.name}'s health is at {self.health}"
+
+    # def rest(self):
+    """ Lets the user choose to let the pet rest. Affects
+    exhaustion meter. """
         
 
 
